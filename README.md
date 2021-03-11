@@ -1,4 +1,4 @@
-# The game-of life
+# The game of life
 Conway's Game of Life. Implemented using pygame library.
 
 # How to
