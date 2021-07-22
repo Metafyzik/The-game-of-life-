@@ -61,12 +61,12 @@ def appRules(live_cells=live_cells):
         # Applying first three rules
         if live_cells_ngbhr != 2 and live_cells_ngbhr != 3:
             dead_cells.add(cell)
-        # Necessary for applying fourth rule
+        # Making histogram of cells that have live neighbors
         for cell in moor_ngbhr:
                 dead_dict[cell] = dead_dict.get(cell,0) + 1
         # emptying for next cycle
         moor_ngbhr.clear()
-    # Applying first three rules
+    # Applying fourth rule
     for cell, live_cells_around in dead_dict.items():
         if live_cells_around == 3:
             new_born_cells.add(cell)
