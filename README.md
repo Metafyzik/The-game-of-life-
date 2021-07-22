@@ -6,4 +6,4 @@ Add cells using by clicking (or clicking and holding) LEFT MOUSE BUTTON.
 Discard life cells by clicking (or clicking and holding) RIGHT MOUSE BUTTON.
 Press RANDOM KEY to start the game.
 
-![](images/game.PNG)
+![](images/game.gif)
