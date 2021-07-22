@@ -36,8 +36,7 @@ def drawRects(cells):
         pygame.draw.rect(win, (0,255,0), (x*sizeBtwn,y*sizeBtwn, sizeBtwn, sizeBtwn))
 
 # Initilazing null generation based on user's input
-def addDiscardCells(input=life_cells): #! rename to add_discard_cells
-
+def addDiscardCells(input=life_cells): 
     if pygame.mouse.get_pressed()[0] == 1: #left mouse button 
 
         x_mous_pos = pygame.mouse.get_pos()[0]
@@ -59,7 +58,8 @@ def appRules(life_cells=life_cells):
         for ngbhr in ngbhr_cell:
             moor_ngbhr.add((cell[0] + ngbhr[0],cell[1] + ngbhr[1]))
         # Applying first three rules
-        if (len(moor_ngbhr.intersection(life_cells))) == 0 or (len(moor_ngbhr.intersection(life_cells))) == 1 or (len(moor_ngbhr.intersection(life_cells))) >= 4:
+        life_cells_ngbhr = len(moor_ngbhr.intersection(life_cells))
+        if life_cells_ngbhr != 2 and life_cells_ngbhr != 3:
             dead_cells.add(cell)
         # Necessary for applying fourth rule
         dead_check.update((moor_ngbhr))
@@ -117,7 +117,7 @@ def iniNullGen():
     return run    
 
 gen = 0
-run= True
+run = True
 
 # Main loop
 while run:
