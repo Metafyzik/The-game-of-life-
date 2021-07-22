@@ -20,6 +20,7 @@ dead_cells  = set()
 dead_check = set()
 new_born_cells = set()
 
+dead_dict = dict()
 def drawGrid(w, rows, surface):
     x = 0
     y = 0
@@ -59,25 +60,22 @@ def appRules(life_cells=life_cells):
             moor_ngbhr.add((cell[0] + ngbhr[0],cell[1] + ngbhr[1]))
         # Applying first three rules
         life_cells_ngbhr = len(moor_ngbhr.intersection(life_cells))
+
         if life_cells_ngbhr != 2 and life_cells_ngbhr != 3:
             dead_cells.add(cell)
         # Necessary for applying fourth rule
-        dead_check.update((moor_ngbhr))
+        for cell in moor_ngbhr:
+            if cell not in life_cells:
+                dead_dict[cell] = dead_dict.get(cell,0) + 1
         # emptying for next cycle
         moor_ngbhr.clear()
-    # so that next part of the function doesnt "check" for already "checked" cells from life_cells
-    dead_check.difference_update(life_cells)
-    """Dead cells check"""
-    for deadcell in dead_check:
-        # calculating Moore neighbourhood for every dead cell from the (previously calculated) Moore neighbourhood of life cells. (≈8*8*life_cells)
-        for ngbhr in ngbhr_cell:
-            moor_ngbhr.add((deadcell[0] + ngbhr[0],deadcell[1] + ngbhr[1]))
-        # Applying fourth rule
-        if (len(moor_ngbhr.intersection(life_cells))) == 3:
-            new_born_cells.add(deadcell)
-        # emptying for next cycle
-        moor_ngbhr.clear()
+        
+    for cell, live_cells_around in dead_dict.items():
+        if live_cells_around == 3:
+            new_born_cells.add(cell)
 
+
+    dead_dict.clear()
     # Getting rid of died cells
     life_cells.difference_update(dead_cells)
     # Adding new born cells
