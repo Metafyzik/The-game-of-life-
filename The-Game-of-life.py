@@ -8,8 +8,8 @@ rows = 120
 w = 1200
 sizeBtwn = w // rows
 
-#Set holding tuples cells to be drawn
-live_cells = set() 
+gen = 0
+run = True
 
 def drawGrid(w, rows, surface):
     x = 0
@@ -27,7 +27,7 @@ def drawRects(cells):
         pygame.draw.rect(win, (0,255,0), (x*sizeBtwn,y*sizeBtwn, sizeBtwn, sizeBtwn))
 
 # Initilazing null generation based on user's input
-def addDiscardCells(input=live_cells): 
+def addDiscardCells(live_cells): 
     if pygame.mouse.get_pressed()[0] == 1: #left mouse button 
 
         x_mous_pos = pygame.mouse.get_pos()[0]
@@ -41,8 +41,9 @@ def addDiscardCells(input=live_cells):
 
         live_cells.discard( (x_mous_pos//10,y_mous_pos//10) )
 
+    return live_cells
 # Applying rules/ generation cells of next generation
-def appRules(live_cells=live_cells):
+def appRules(live_cells):
     ngbhr_cell = ((0,1),(0,-1),(1,0),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1))
 
     moor_ngbhr = set()
@@ -78,10 +79,14 @@ def appRules(live_cells=live_cells):
     return live_cells
 
 def iniNullGen():
+    #Set holding tuples cells to be drawn
+    live_cells = set()
+
     init_null_gen = True
     while init_null_gen: 
         pygame.time.delay(100)
 
+        # end whole program
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 init_null_gen = False 
@@ -90,7 +95,7 @@ def iniNullGen():
         win.fill((0,0,0))
 
         drawGrid(w,rows,win)
-        addDiscardCells() #!
+        live_cells = addDiscardCells(live_cells) #!
         drawRects(live_cells)
 
         # end the loop by pressing a random key
@@ -101,10 +106,7 @@ def iniNullGen():
                 run = True
         pygame.display.update()
 
-    return run    
-
-gen = 0
-run = True
+    return run,live_cells    
 
 # Main loop
 while run:
@@ -116,7 +118,7 @@ while run:
     win.fill((0,0,0))
 
     if gen == 0:
-        run = iniNullGen()
+        run, live_cells = iniNullGen()
 
     drawGrid(w,rows,win)
 
