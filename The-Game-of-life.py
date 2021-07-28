@@ -8,16 +8,8 @@ rows = 120
 w = 1200
 sizeBtwn = w // rows
 
-ngbhr_cell = ((0,1),(0,-1),(1,0),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1))
-
 #Set holding tuples cells to be drawn
 live_cells = set() 
-# Variables for function appRules()
-moor_ngbhr = set()
-dead_cells  = set()
-dead_check = set()
-new_born_cells = set()
-dead_dict = dict()
 
 def drawGrid(w, rows, surface):
     x = 0
@@ -51,6 +43,13 @@ def addDiscardCells(input=live_cells):
 
 # Applying rules/ generation cells of next generation
 def appRules(live_cells=live_cells):
+    ngbhr_cell = ((0,1),(0,-1),(1,0),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1))
+
+    moor_ngbhr = set()
+    dead_cells  = set()
+    dead_check = set()
+    new_born_cells = set()
+    dead_dict = dict()
     """live cells check"""
     for cell in live_cells:
         # calculating Moore neighbourhood for every live cell
@@ -75,11 +74,6 @@ def appRules(live_cells=live_cells):
     live_cells.update(new_born_cells)    
     # Getting rid of died cells
     live_cells.difference_update(dead_cells)
-    # emptying for next cycle
-    dead_dict.clear()
-    dead_cells.clear()
-    dead_check.clear()
-    new_born_cells.clear()
 
     return live_cells
 
